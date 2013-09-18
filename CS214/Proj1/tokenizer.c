@@ -2,12 +2,13 @@
  * tokenizer.c
  */
 #include <stdio.h>
-
 /*
  * Tokenizer type.  You need to fill in the type as part of your implementation.
  */
 
 struct TokenizerT_ {
+char* 
+
 };
 
 typedef struct TokenizerT_ TokenizerT;
@@ -59,6 +60,14 @@ char *TKGetNextToken(TokenizerT *tk) {
 }
 
 /*
+ * EscapeToHex returns the reconfigure the character string return
+ * by TKGetNextToken and takes the escape value and convert them
+ * to their Hex value in the form 0x??
+ */
+char *EscapeToHex(char *output) {
+	
+}
+/*
  * main will have two string arguments (in argv[1] and argv[2]).
  * The first string contains the separator characters.
  * The second string contains the tokens.
@@ -67,6 +76,18 @@ char *TKGetNextToken(TokenizerT *tk) {
  */
 
 int main(int argc, char **argv) {
-
+	char list[] ="hello mate";
+	char* points = list;
+	printf("%s This is Arg1\n",argv[1]);
+	printf("%s This is Arg2\n",argv[2]);
+	char c = ' ';
+	while(c!='\0') {
+		c = *points;
+		points++;
+		printf("%c\n", c);
+	}
+//	int x=0;
+//	for(x; x<100; x++)
+//	printf("%d.\ %c\\n",x,x);
   return 0;
 }
