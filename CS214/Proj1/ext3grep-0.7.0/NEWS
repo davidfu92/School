@@ -1,0 +1,107 @@
+ext3grep-0.6.0
+
+	Don't completely and silently break if any file has a single quote in it's name.
+	Don't exhaust the 32-bit address space with mmaps, by mmapping at most 256 inode tables on x86.
+	Added support for recovering files larger than 2 GB.
+
+ext3grep-0.5.0
+
+	Set the correct modification time on files.
+	Add extended directory blocks in the order parent -> child, so that it does not happen
+	  anymore that some extended directory blocks couldn't be added because their parent
+	  directory wasn't added yet.
+        Force recompile if CXXFLAGS changes.
+	Don't print any non-ASCII characters.
+	Treat any non-ASCII character as 'weird' in filenames, thus also values larger than 127.
+	Use unsigned long for bitmap_t instead of uint64_t.
+	Added README.globals with a description of the used global variables.
+	Added README.actions with a description of the used action functions.
+	Allow locate database include files without first listing the parent directory.
+	Handle orphaned inodes correctly.
+	Fixed the reported segfault with backtrace:
+	  #0  0x0000000000419084 in Inode::dtime (this=0x0) at ./ext3.h:118
+	  #1  0x000000000041168b in filter_dir_entry (...
+	Do not include asm/byteorder.h anymore, which appears to be a private header.
+
+ext3grep-0.4.1
+
+	Fix compile problem with EXTERNAL_BLOCK=0
+
+ext3grep-0.4.0
+
+	Address the problem where two dir entries have the same name but different inode numbers.
+	Print version as first output line.
+	Print more human readable errors if opening of device fails.
+	If configure with libcwd, add --debug and --debug-malloc commandline options.
+	Asserts now print a backtrace.
+	Use EXT3_ROOT_INO instead of 2.
+	Make --enable-debug the default.
+        Demand --enable-maintainer-mode to be used with svn.
+	Append '# END' to the end of the stage1/2 files, and test for it when reading it;
+	  regenerate the cache file if it doesn't end on '# END'.
+
+ext3grep-0.3.1
+
+        Accept weird characters in filenames (almost always).
+	Added code to warn about rejected filenames because of it's characters
+	  (although that is hardly used now we that accept everything).
+	Added code that collects statistics about the number
+	  of weird characters in a directory (not used yet).
+
+ext3grep-0.3.0
+
+	Added support for filesystems without the incompatibility feature EXT3_FEATURE_INCOMPAT_FILETYPE.
+	Removed assertion `inode_to_count.size() == 1'. The new algorithm uses
+	  the inode found in the journal in this case now (code that I added to 0.1.0).
+	Improved some error messages.
+
+ext3grep-0.2.0
+
+	Output error message if device can't be opened.
+	Fixed a MAJOR bug for 32-bit systems.
+
+ext3grep-0.1.1
+
+	Added largefile support; 64-bit off_t.
+
+ext3grep-0.1.0
+
+	Now using journal to find inode numbers of extended directory blocks!
+	Added detection of reused or corrupted indirect blocks, aborting iteration.
+	Now using mmap(2) for the inode tables, use --disable-mmap to disable.
+	PCH dependency problem was fixed.
+	Write output to directory "RESTORED_FILES" instead of to ".".
+	Fixed a bug that prevented the recovery of files in the root.
+	Fixed infinite loop when --journal-transaction is out of range.
+
+ext3grep-0.0.4
+
+	Commandline option --histogram: Fixed initialization of commandline_before
+	  when --before is not given and time_t is signed.
+	Use new struct Inode instead of ext3_inode. Use inode directly from
+	what was read from disk without copying them first (sizeof(Inode) is
+	equal to the real inode size on disk, so this is possible). Use
+	accessors for every access to an inode.
+
+ext3grep-0.0.3
+
+	Using e2progs headers instead of kernel headers.
+	Print inode when assert(first_block) fails.
+	Changed license from GPL3 to GPL2.
+	Commandline option --version: Print correct version of ext3grep .
+	Commandline option --zeroed-inodes: Does not need parameter.
+	Fixed compiler warning on 32-bit.
+	Use i_reserved2 instead of i_reserved1 to store inode number (for debugging purposes only, see HOWTO).
+	EXT3_ORPHAN_FS is only used in kernel memory, remove code to print it.
+
+ext3grep-0.0.2
+
+	Added a temporary workaround to compile with linux headers 2.6.24.
+
+ext3grep-0.0.1
+
+	Clean up of build system.
+
+ext3grep-0.0.0
+
+	First public release.
