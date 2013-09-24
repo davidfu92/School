@@ -155,7 +155,7 @@ int main(int argc, char **argv) {
 	TokenizerT *tt = t;
 	int size = 0;
 	while(TKGetNextToken(tt) != NULL) {
-		printf("word %s\n",TKGetNextToken(tt));
+		printToken(TKGetNextToken(tt));
 		tt = tt->next;
 	}
   return 0;
