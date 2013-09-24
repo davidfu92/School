@@ -34,7 +34,7 @@ TokenizerT *TKCreate(char *separators, char *ts) {
 	tk->token =  calloc(100, sizeof(char));  // create 100 token word  buffer
 	int word = 0;
 	char *temp = separators;
-	char sep = ' ';
+	char sep = *separators;
 	char input = *ts;
 	if(input == '\0') {
 		free(tk->token);
@@ -84,6 +84,12 @@ TokenizerT *TKCreate(char *separators, char *ts) {
  */
 
 void TKDestroy(TokenizerT *tk) {
+	while(tk != NULL) {
+		TokenizerT *temp = tk->next;
+		free(tk->token);
+		free(tk);
+		tk = temp;
+	}
 }
 
 /*
@@ -99,8 +105,7 @@ void TKDestroy(TokenizerT *tk) {
  */
 
 char *TKGetNextToken(TokenizerT *tk) {
-	if(tk->next != NULL) {
-		printf("word %s", tk->token);
+	if(tk != NULL) {
 		return tk->token;
 	}
 	return NULL;
@@ -108,14 +113,14 @@ char *TKGetNextToken(TokenizerT *tk) {
 
 /*
  * printToken reconfigure the character string from
- *  TKGetNextToken and takes the escape value and convert them
+ * TKGetNextToken and takes the escape value and convert them
  * to their Hex value in the form 0x?? and prints them
  */
 void printToken(char *output) {
 	char c = *output;
-	while(c != '\0') {
+	while(c != '\0') {		//checks character by character for escape character
 		if(c == '\\'){
-			c=*(++output);
+			c = *(++output);
 			switch(c) {
 				case 'n' : printf("[0x0a]");  
 					break;
@@ -131,7 +136,7 @@ void printToken(char *output) {
 					break;
 				case '"' : printf("[0x22]");
 					break;
-				DEFAULT : printf("%c",c);
+				DEFAULT : printf("???%c",c);
 			}
 		} else {
 			printf("%c", c);
@@ -149,14 +154,14 @@ void printToken(char *output) {
  */
 
 int main(int argc, char **argv) {
-	char list[] ="hello\nmate";
-	char* points = list;
 	TokenizerT *t = TKCreate(argv[1], argv[2]);
+	printf("arg2 %s\n",argv[2]);
 	TokenizerT *tt = t;
 	int size = 0;
 	while(TKGetNextToken(tt) != NULL) {
 		printToken(TKGetNextToken(tt));
 		tt = tt->next;
 	}
+	TKDestroy(t);
   return 0;
 }
