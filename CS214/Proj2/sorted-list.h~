@@ -141,12 +141,7 @@ int SLInsert(SortedListPtr list, void *newObj) {
  */
 
 int SLRemove(SortedListPtr list, void *newObj) {
-	struct Node *obj = list->root, *preobj = NULL;
-	while(obj->value != NULL) {
-		if(list->comp (newObj , obj) == 0) {
-				
-		}
-	}
+	
 };
 
 
