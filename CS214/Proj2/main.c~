@@ -32,5 +32,6 @@ int compareStrings(void *p1, void *p2)
 
 int main()
 {
+	SortedListPtr sp = SLCreate(compareInts);
 	return 0;
 }

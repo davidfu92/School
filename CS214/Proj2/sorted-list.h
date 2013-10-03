@@ -3,7 +3,6 @@
 /*
  * sorted-list.h
  */
-
 #include <stdlib.h>
 /*
  * Node type to make sorting a bit easier even though at the cost of twice the memory
@@ -22,6 +21,7 @@ struct SortedList
 	int (*comp)(void *, void *);
 
 };
+
 typedef struct SortedList* SortedListPtr;
 
 
@@ -33,6 +33,7 @@ struct SortedListIterator
 {
 	struct Node *ptr;
 };
+
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
 
@@ -79,7 +80,13 @@ SortedListPtr SLCreate(CompareFuncT cf) {
  * You need to fill in this function as part of your implementation.
  */
 void SLDestroy(SortedListPtr list) {
-	
+	struct Node *temp = list->root;
+	while(temp != NULL) {
+		list->root = list->root->next;
+		free(temp);
+		temp = list->root;
+	}
+	free(list);
 };
 
 
@@ -103,7 +110,7 @@ int SLInsert(SortedListPtr list, void *newObj) {
 	n->value = newObj;
 	struct Node *obj = list->root, *preobj = NULL;
 	while(obj->value != NULL) {
-		if(list->comp (newObj , obj) == -1) {
+		if(list->comp (newObj , obj->value) == -1) {
 			if(obj->next == NULL) {
 				obj->next = n;
 				return 1;
@@ -143,10 +150,20 @@ int SLInsert(SortedListPtr list, void *newObj) {
 int SLRemove(SortedListPtr list, void *newObj) {
 	struct Node *obj = list->root, *preobj = NULL;
 	while(obj->value != NULL) {
-		if(list->comp (newObj , obj) == 0) {
-				
+		if(list->comp (newObj , obj->value) == 0) {
+			if(preobj == NULL) {
+				list->root = list->root->next;
+				free(obj);
+			return 1;
+			} else {
+				preobj->next = obj->next;
+				free(obj);
+				return 1;
+			}
 		}
+	obj = obj->next;
 	}
+	return 0;
 };
 
 
@@ -160,7 +177,11 @@ int SLRemove(SortedListPtr list, void *newObj) {
  * You need to fill in this function as part of your implementation.
  */
 
-SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
+SortedListIteratorPtr SLCreateIterator(SortedListPtr list) {
+	SortedListIteratorPtr il = malloc(sizeof(struct SortedListIterator));
+	il->ptr = list->root;
+	return il;
+};
 
 
 /*
@@ -172,7 +193,9 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
  * You need to fill in this function as part of your implementation.
  */
 
-void SLDestroyIterator(SortedListIteratorPtr iter);
+void SLDestroyIterator(SortedListIteratorPtr iter) {
+	free(iter);	
+};
 
 
 /*
@@ -190,6 +213,10 @@ void SLDestroyIterator(SortedListIteratorPtr iter);
  * You need to fill in this function as part of your implementation.
  */
 
-void *SLNextItem(SortedListIteratorPtr iter);
+void *SLNextItem(SortedListIteratorPtr iter) {
+	void *value = iter->ptr->value;
+	iter->ptr = iter->ptr->next;
+	return value;	
+};
 
 #endif
