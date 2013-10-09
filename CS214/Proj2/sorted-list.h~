@@ -9,18 +9,19 @@
  */
 struct Node
 {
-	void *value;
-	struct Node *next;
+	void *value = NULL;
+	struct Node *next = NULL;
 };
 /*
  * Sorted list type.  You need to fill in the type as part of your implementation.
  */
 struct SortedList
 {
-	struct Node *root;
-	int (*comp)(void *, void *);
+	struct Node *root = NULL;
+	int (*comp)(void *, void *) = NULL;
 
 };
+
 typedef struct SortedList* SortedListPtr;
 
 
@@ -30,8 +31,9 @@ typedef struct SortedList* SortedListPtr;
  */
 struct SortedListIterator
 {
-	struct Node *ptr;
+	struct Node *ptr = NULL;
 };
+
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
 
