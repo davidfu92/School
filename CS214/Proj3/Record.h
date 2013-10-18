@@ -10,4 +10,14 @@ struct Record
 	char *word;
 	int count;
 };
+
+typedef struct *Record RecordPtr;
+
+/*Compare two Record*/
+
+int compareRec(RecordPtr r1, RecordPtr r2);
+
+/*Convert a Record to String*/
+
+char *toString(RecordPtr r);
 #endif

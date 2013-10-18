@@ -30,49 +30,49 @@ typedef struct TokenizerT_ TokenizerT;
 
 TokenizerT *TKCreate(char *separators, char *ts) {
 	TokenizerT *tk = malloc(sizeof(TokenizerT));
-	TokenizerT *t = tk;
+	TokenizerT *t = tk; 			//create temp
 	tk->token =  calloc(100, sizeof(char));  // create 100 token word  buffer
 	int word = 0;
 	char *temp = separators;
 	char sep = *separators;
 	char input = *ts;
-	if(input == '\0') {
+	if(input == '\0') {				//check if input is empty
 		free(tk->token);
 		free(tk);
 		return NULL;
 	}
-	while(input != '\0') {
+	while(input != '\0') {			//loop through input
 		sep = *temp;
-		while(sep != '\0') {
-			if((input == sep) && (word == 0)) {
+		while(sep != '\0') {		//loop through sepeartor
+			if((input == sep) && (word == 0)) {			//if seperator char and no word in token yet
 				temp = separators;
 				break;
 			}
-			else if((input == sep) && (word>0)) {
+			else if((input == sep) && (word>0)) {		//if sepertor char and there is word means create new word
 				temp = separators;
-				t->token = realloc(t->token, sizeof(char)*(++word));
-				t->token[word] = '\0';
+				t->token = realloc(t->token, sizeof(char)*(++word)); //reallocate size
+				t->token[word] = '\0';				//end the string with \0
 				word = 0;
-				TokenizerT *n = malloc(sizeof(TokenizerT));
+				TokenizerT *n = malloc(sizeof(TokenizerT)); // makes new token
 				t->next = n;
 				t = t->next;
-				t->token = calloc(100, sizeof(char));
+				t->token = calloc(100, sizeof(char)); //make new buffer
 			break;
 			}
 			sep = *(++temp);
 		}
-		if(sep == '\0') {
+		if(sep == '\0') {		//if input char not in separator add it to the token
 			temp = separators;
 			t->token[word] = input;
 			word++;
 		}
 		input = *(++ts);
 	}
-	if((input == '\0') && (word != 0)) {
+	if((input == '\0') && (word != 0)) {		//check to see if last input char is valid and there is a final word
 				t->token = realloc(t->token, sizeof(char)*(++word));
 				t->token[word] = '\0';
 	}
-	t->next = NULL;
+	t->next = NULL;			//end the token
 	return tk;
 }
 
@@ -84,7 +84,7 @@ TokenizerT *TKCreate(char *separators, char *ts) {
  */
 
 void TKDestroy(TokenizerT *tk) {
-	while(tk != NULL) {
+	while(tk != NULL) {					//loops to token and free them
 		TokenizerT *temp = tk->next;
 		free(tk->token);
 		free(tk);
@@ -106,7 +106,7 @@ void TKDestroy(TokenizerT *tk) {
 
 char *TKGetNextToken(TokenizerT *tk) {
 	if(tk != NULL) {
-		return tk->token;
+		return tk->token;			//returns token
 	}
 	return NULL;
 }
@@ -136,14 +136,14 @@ void printToken(char *output) {
 					break;
 				case '"' : printf("[0x22]");
 					break;
-				DEFAULT : printf("???%c",c);
+				DEFAULT : printf("%c",c);		//Default print character after / if not escape
 			}
 		} else {
-			printf("%c", c);
+			printf("%c", c);			// just print the character
 		}
 		c=*(++output);
 	}
-	printf("\n");
+	printf("\n");					//go to next line
 }
 /*
  * main will have two string arguments (in argv[1] and argv[2]).
@@ -154,14 +154,19 @@ void printToken(char *output) {
  */
 
 int main(int argc, char **argv) {
-	TokenizerT *t = TKCreate(argv[1], argv[2]);
-	printf("arg2 %s\n",argv[2]);
+	if ((argv[1] == NULL) && (argv[2] == NULL)) {
+		printf("Too Few Args => error\n");
+		return -1;
+	} else if(argv[3] != NULL){
+		printf("Too Many Args => error\n");
+		return -1;
+	}
+	TokenizerT *t = TKCreate(argv[1], argv[2]);   //creates tokenizer
 	TokenizerT *tt = t;
-	int size = 0;
 	while(TKGetNextToken(tt) != NULL) {
-		printToken(TKGetNextToken(tt));
+		printToken(TKGetNextToken(tt));  // print out token
 		tt = tt->next;
 	}
-	TKDestroy(t);
+	TKDestroy(t);				//free memory
   return 0;
 }

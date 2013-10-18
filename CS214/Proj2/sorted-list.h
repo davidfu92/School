@@ -65,29 +65,15 @@ typedef int (*CompareFuncT)(void *, void *);
  * You need to fill in this function as part of your implementation.
  */
 
-SortedListPtr SLCreate(CompareFuncT cf) {
-	SortedListPtr sList = malloc(sizeof(struct SortedList));
-	sList->comp = cf;
-	sList->root = malloc(sizeof(struct Node));
-	sList->root->value = NULL;
-	sList->root->next = NULL;
-	return sList;
-};
+SortedListPtr SLCreate(CompareFuncT cf);
 
 /*
  * SLDestroy destroys a list, freeing all dynamically allocated memory.
  *
  * You need to fill in this function as part of your implementation.
  */
-void SLDestroy(SortedListPtr list) {
-	struct Node *temp = list->root;
-	while(temp != NULL) {
-		list->root = list->root->next;
-		free(temp);
-		temp = list->root;
-	}
-	free(list);
-};
+void SLDestroy(SortedListPtr list)
+;
 
 
 /*
@@ -101,41 +87,7 @@ void SLDestroy(SortedListPtr list) {
  * You need to fill in this function as part of your implementation.
  */
 
-int SLInsert(SortedListPtr list, void *newObj) {
-	if(list->root->value == NULL) {
-		list->root->value = newObj;
-		return 1;
-	}
-	struct Node *n = malloc(sizeof(struct Node));
-	n->value = newObj;
-	struct Node *obj = list->root, *preobj = NULL;
-	while(obj->value != NULL) {
-		if(list->comp (newObj , obj->value) == -1) {
-			if(obj->next == NULL) {
-				obj->next = n;
-				return 1;
-			} else if(list->comp (newObj , obj->next->value) >= 0){
-				obj->next = n;
-				return 1;
-			}
-				
-		} else {
-			if(preobj == NULL) {
-				n->next = obj;
-				list->root = n;
-				return 1;
-			} else {
-				preobj->next = n;
-				n->next = obj;
-				return 1;
-			}
-		}
-	preobj = obj;
-	obj = obj->next;
-
-	}
-	return 0;
-};
+int SLInsert(SortedListPtr list, void *newObj);
 
 
 /*
@@ -147,24 +99,7 @@ int SLInsert(SortedListPtr list, void *newObj) {
  * You need to fill in this function as part of your implementation.
  */
 
-int SLRemove(SortedListPtr list, void *newObj) {
-	struct Node *obj = list->root, *preobj = NULL;
-	while(obj->value != NULL) {
-		if(list->comp (newObj , obj->value) == 0) {
-			if(preobj == NULL) {
-				list->root = list->root->next;
-				free(obj);
-			return 1;
-			} else {
-				preobj->next = obj->next;
-				free(obj);
-				return 1;
-			}
-		}
-	obj = obj->next;
-	}
-	return 0;
-};
+int SLRemove(SortedListPtr list, void *newObj);
 
 
 /*
@@ -177,11 +112,7 @@ int SLRemove(SortedListPtr list, void *newObj) {
  * You need to fill in this function as part of your implementation.
  */
 
-SortedListIteratorPtr SLCreateIterator(SortedListPtr list) {
-	SortedListIteratorPtr il = malloc(sizeof(struct SortedListIterator));
-	il->ptr = list->root;
-	return il;
-};
+SortedListIteratorPtr SLCreateIterator(SortedListPtr list);
 
 
 /*
@@ -193,9 +124,7 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list) {
  * You need to fill in this function as part of your implementation.
  */
 
-void SLDestroyIterator(SortedListIteratorPtr iter) {
-	free(iter);	
-};
+void SLDestroyIterator(SortedListIteratorPtr iter);
 
 
 /*
@@ -213,10 +142,6 @@ void SLDestroyIterator(SortedListIteratorPtr iter) {
  * You need to fill in this function as part of your implementation.
  */
 
-void *SLNextItem(SortedListIteratorPtr iter) {
-	void *value = iter->ptr->value;
-	iter->ptr = iter->ptr->next;
-	return value;	
-};
+void *SLNextItem(SortedListIteratorPtr iter);
 
 #endif

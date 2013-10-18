@@ -154,6 +154,13 @@ void printToken(char *output) {
  */
 
 int main(int argc, char **argv) {
+	if ((argv[1] == NULL) || (argv[2] == NULL)) {
+		printf("Too Few Args => error\n");
+		return -1;
+	} else if(argv[3] != NULL){
+		printf("Too Many Args => error\n");
+		return -1;
+	}
 	TokenizerT *t = TKCreate(argv[1], argv[2]);   //creates tokenizer
 	TokenizerT *tt = t;
 	while(TKGetNextToken(tt) != NULL) {
