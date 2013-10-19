@@ -16,16 +16,35 @@ struct List {
 };
 
 void destroyList(struct List *l) {
-	struct Record *rec = l->list;
-	struct Record *temp;
-	while(rec != NULL) {
-		temp = rec;
-		rec = rec->next;
-		free(temp);
+	if(l != NULL) {
+		struct Record *rec = l->list;
+		struct Record *temp;
+		while(rec != NULL) {
+			temp = rec;
+			rec = rec->next;
+			free(temp->file);
+			free(temp);
+		}
 	}
 };
 
 void sortList(struct Record *r) {
-
+	if(r->prev != NULL) {
+		if(r->count > r->prev->count) {
+			struct Record *temp = r->prev;	
+			if(r->prev->prev->next != NULL)
+				r->prev->prev->next = r;
+			if(r->prev->next != NULL)
+				r->prev->next = r->next;
+			if(r->prev->prev != NULL)
+				r->prev->prev = r;
+			if(r->next->prev != NULL)
+				r->next->prev = temp;
+			if(r->prev != NULL)
+				r->prev = r;
+			if(r->next != NULL)
+				r->next = temp;
+		}
+	}
 };
 #endif

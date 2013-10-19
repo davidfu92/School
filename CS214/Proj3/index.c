@@ -3,17 +3,68 @@
 #include <string.h>
 #include <dirent.h>
 #include "Hashmap.c"
+#include "sorted-list.h"
 
+int compareString(void *p1, void *p2)
+{
+	char *s1 = ((struct List*)p1)->word;
+	char *s2 = ((struct List*)p2)->word;
+
+	return strcmp(s1, s2);
+}
+void printToFile(FILE *output, Map tokens) {
+	int s =0,five = 1;
+	SortedListPtr sortedlist = SLCreate(compareString);
+	for(s; s<tokens->size; s++) {
+		if(tokens->table[s].key != 0) {
+			SLInsert(sortedlist, tokens->table[s].rList);
+			/*			struct Record *r = (tokens->table[s].rList)->list;
+						fprintf(output,"%s %s\n","<list> ", (tokens->table[s].rList)->word);
+						while(r != NULL) {
+						fprintf(output,"%s %d ", r->file,r->count);
+						five++;
+						r = r->next;
+						if(five % 5 == 0) {
+						fprintf(output,"%s\n","</list>");
+						fprintf(output,"%s %s\n","<list> ",(tokens->table[s].rList)->word);
+						}
+						}
+						fprintf(output,"%s\n","</list>"); */
+		}
+	}
+	struct Node *n = sortedlist->root;
+	while(n != NULL) {
+		fprintf(output,"%s %s\n","<list> ", ((struct List*)(n->value))->word);
+		struct Record *r = ((struct List*)(n->value))->list;
+		while(r != NULL) {
+			fprintf(output,"%s %d ", r->file,r->count);
+			five++;
+			r = r->next;
+			if(five % 5 == 0) {
+				fprintf(output,"%s\n","</list>");
+				fprintf(output,"%s %s\n","<list> ",((struct List*)(n->value))->word);
+			}
+		}
+		fprintf(output,"%s\n","</list>"); 
+		n = n->next;
+	}
+
+}
 void openDir(DIR *dir,Map tokens,char *path) {
 	struct dirent* dir_loop;
 	FILE *allf;
+	DIR *subdir;
 	while ((dir_loop = readdir (dir)) != NULL) {
-		if(strcmp(dir_loop->d_name, ".") != 0 || strcmp(dir_loop->d_name, ".") !=  0) {
-			char *loc = malloc(sizeof(char)*100);
+		if(strcmp(dir_loop->d_name, "..") != 0 && strcmp(dir_loop->d_name, ".") !=  0) {
+			char *loc = calloc(100, sizeof(char));
 			strcat(strcat(strcat(loc , path), "/"), dir_loop->d_name);
-			printf ("%s\n", loc);
+			//printf ("%s\n", loc);
 			allf = fopen(loc, "r");
-			if(allf != NULL) {
+			subdir = opendir(loc);
+			if(subdir != NULL){
+				openDir(subdir, tokens,loc);
+				closedir(subdir);
+			} else if(allf != NULL) {
 				char c = fgetc(allf);
 				char *w=calloc(100, sizeof(char));
 				int spot = 0;
@@ -27,8 +78,8 @@ void openDir(DIR *dir,Map tokens,char *path) {
 							w = realloc(w, sizeof(char)*(++spot));
 							w[spot] = '\0';
 							spot =0;
-							printf("word: %s\n", w);
-							hashmapInsert(tokens,dir_loop->d_name,w,hash(w));
+							//printf("word: %s\n", w);
+							hashmapInsert(tokens,loc,w,hash(w));
 							w = calloc(100, sizeof(char));
 						}
 					}
@@ -39,10 +90,8 @@ void openDir(DIR *dir,Map tokens,char *path) {
 					w[spot] = '\0';
 					spot =0;
 					printf("word: %s\n", w);
-					hashmapInsert(tokens,dir_loop->d_name,w,hash(w));
+					hashmapInsert(tokens,loc,w,hash(w));
 				}
-			} else {
-				perror("");
 			}
 			if(allf != NULL)
 				fclose(allf);
@@ -69,6 +118,7 @@ int main(int argc, char **argv) {
 		}
 	} else {
 		index = fopen(argv[1], "w");
+		rewind(index);
 	}
 	FILE *input = NULL;
 	dir = opendir(argv[2]);
@@ -92,7 +142,7 @@ int main(int argc, char **argv) {
 					w = realloc(w, sizeof(char)*(++spot));
 					w[spot] = '\0';
 					spot =0;
-					printf("word: %s\n", w);
+					//printf("word: %s\n", w);
 					hashmapInsert(tokens,argv[2],w,hash(w));
 					w = calloc(100, sizeof(char));
 				}
@@ -103,30 +153,20 @@ int main(int argc, char **argv) {
 			w = realloc(w, sizeof(char)*(++spot));
 			w[spot] = '\0';
 			spot =0;
-			printf("word: %s\n", w);
+			//printf("word: %s\n", w);
 			hashmapInsert(tokens,argv[2],w,hash(w));
 		}
 	} else {
 		fprintf(stderr, "Erorr invalid FILE or DIRECTORY\n");
 	}
+	printToFile(index, tokens);
 	if(index != NULL)
 		fclose(index);
 	if(input != NULL)
 		fclose(input);
 	if(dir != NULL)
 		closedir(dir);
-	int s =0;
-	for(s; s<tokens->size; s++) {
-		//printf("one");
-		if(tokens->table[s].key != 0) {
-			struct Record *r = (tokens->table[s].rList)->list;
-			while(r != NULL) {
-				printf("hash word: %s file : %s number : %d\n", (tokens->table[s].rList)->word,r->file,r->count);
-				r = r->next;
-			}
-		}
-	}
-
+	//destroyHashmap(tokens);
 	return 0;
 }
 

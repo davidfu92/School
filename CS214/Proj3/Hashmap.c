@@ -24,6 +24,8 @@ void hashmapInsert(Map hmap, char *file, char *word, unsigned long key)
 		hmap->table[index].key = key;
 		(hmap->table[index].rList)->list = malloc(sizeof(struct Record));
 		(hmap->table[index].rList)->word = word;
+		(hmap->table[index].rList)->list->file = calloc(50, sizeof(char));
+	
 		(hmap->table[index].rList)->list->file = file;
 		(hmap->table[index].rList)->list->count = 1;
 		(hmap->table[index].rList)->list->next = NULL;
@@ -46,6 +48,7 @@ void hashmapInsert(Map hmap, char *file, char *word, unsigned long key)
 			}
 			if(r->next == NULL) {
 				r->next = malloc(sizeof(struct Record));
+				r->next->file = calloc(50, sizeof(char));
 				r->next->file=file;
 				r->next->count = 1;
 				r->next->next = NULL;
@@ -72,6 +75,7 @@ void destroyHashmap(Map hmap)
 {
 	int s = hmap->size;
 	for(s; s>0; s--) {
+		if(hmap->table[s].key != 0)
 		destroyList(hmap->table[s].rList);
 	}
 	free(hmap->table);
