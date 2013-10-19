@@ -1,7 +1,7 @@
 #ifndef RECORDLIST_H
 #define RECORDLIST_H
 /*
- *  Defining the struct Record
+ *  Defining the struct Record and Recordlist
  */
 struct Record
 {
@@ -23,9 +23,9 @@ void destroyList(struct List l) {
 		rec = rec->next;
 		free(temp);
 	}
-	free(l);
 };
 
-void sortList(struct Record r) {
+void sortList(struct Record *r) {
 
 };
+#endif
