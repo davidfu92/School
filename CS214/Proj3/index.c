@@ -14,11 +14,11 @@ int compareString(void *p1, void *p2)
 }
 void printToFile(FILE *output, Map tokens) {
 	int s =0,five = 1;
-	SortedListPtr sortedlist = SLCreate(compareString);
+//	SortedListPtr sortedlist = SLCreate(compareString);
 	for(s; s<tokens->size; s++) {
 		if(tokens->table[s].key != 0) {
-			SLInsert(sortedlist, tokens->table[s].rList);
-			/*			struct Record *r = (tokens->table[s].rList)->list;
+			//SLInsert(sortedlist, tokens->table[s].rList);
+						struct Record *r = (tokens->table[s].rList)->list;
 						fprintf(output,"%s %s\n","<list> ", (tokens->table[s].rList)->word);
 						while(r != NULL) {
 						fprintf(output,"%s %d ", r->file,r->count);
@@ -29,10 +29,10 @@ void printToFile(FILE *output, Map tokens) {
 						fprintf(output,"%s %s\n","<list> ",(tokens->table[s].rList)->word);
 						}
 						}
-						fprintf(output,"%s\n","</list>"); */
+						fprintf(output,"%s\n","</list>");
 		}
 	}
-	struct Node *n = sortedlist->root;
+/*	struct Node *n = sortedlist->root;
 	while(n != NULL) {
 		fprintf(output,"%s %s\n","<list> ", ((struct List*)(n->value))->word);
 		struct Record *r = ((struct List*)(n->value))->list;
@@ -47,7 +47,7 @@ void printToFile(FILE *output, Map tokens) {
 		}
 		fprintf(output,"%s\n","</list>"); 
 		n = n->next;
-	}
+	} */
 
 }
 void openDir(DIR *dir,Map tokens,char *path) {
