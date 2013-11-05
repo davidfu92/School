@@ -25,11 +25,11 @@ void printToFile(FILE *output, Map tokens) {
 						five++;
 						r = r->next;
 						if(five % 5 == 0) {
-						fprintf(output,"%s\n","</list>");
+						fprintf(output,"\n%s\n","</list>");
 						fprintf(output,"%s %s\n","<list> ",(tokens->table[s].rList)->word);
 						}
 						}
-						fprintf(output,"%s\n","</list>");
+						fprintf(output,"\n%s\n","</list>");
 		}
 	}
 /*	struct Node *n = sortedlist->root;
