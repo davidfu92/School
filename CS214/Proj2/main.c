@@ -1,4 +1,3 @@
-t
 /*
  * sorted-list.c
  */
