@@ -1,0 +1,8 @@
+all:
+	gcc index.c -o index libsl.a
+object:
+	gcc -c sorted-list.c Hashmap.c
+libary:
+	ar -cvq libsl.a *.o
+clean:
+	rm index
