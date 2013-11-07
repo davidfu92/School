@@ -1,5 +1,5 @@
 #include "sorted-list.h"
-
+#include <stdio.h>
 /*
  * This method creates a basic root node of the linklist
  * and store the compareFuncT in a pointer
@@ -8,9 +8,7 @@
 SortedListPtr SLCreate(CompareFuncT cf) {
 	SortedListPtr sList = (SortedListPtr) malloc(sizeof(struct SortedList));		// creates base
 	sList->comp = cf;																// save comparator
-	sList->root = malloc(sizeof(struct Node));										// create node
-	sList->root->value = NULL;
-	sList->root->next = NULL;
+	sList->root = NULL;										// create node
 	return sList;																	// return
 };
 
@@ -44,7 +42,10 @@ void SLDestroy(SortedListPtr list) {
  */
 
 int SLInsert(SortedListPtr list, void *newObj) {
-	if(list->root->value == NULL) {													// if empty list put value in root
+	if(list == NULL || newObj == NULL)
+		return 0;
+	if(list->root == NULL) {													// if empty list put value in root
+		list->root = malloc(sizeof(struct Node));
 		list->root->value = newObj;
 		return 1;
 	}
@@ -93,18 +94,19 @@ int SLInsert(SortedListPtr list, void *newObj) {
 
 int SLRemove(SortedListPtr list, void *newObj) {
 	struct Node *obj = list->root, *preobj = NULL;
-	while(obj->value != NULL) {														// loop through list
+	while(obj != NULL) {														// loop through list
 		if(list->comp (newObj , obj->value) == 0) {									// checks if value are equal
 			if(preobj == NULL) {
 				list->root = list->root->next;
 				free(obj);
-			return 1;
-			} else {																// make sure not to lose root if first obj
+				return 1;
+			} else {																// make sure not to lose root if not first obj
 				preobj->next = obj->next;
 				free(obj);
 				return 1;
 			}
 		}
+	preobj = obj;
 	obj = obj->next;
 	}
 	return 0;
@@ -126,6 +128,10 @@ int SLRemove(SortedListPtr list, void *newObj) {
 SortedListIteratorPtr SLCreateIterator(SortedListPtr list) {
 	SortedListIteratorPtr il = malloc(sizeof(struct SortedListIterator));			// simply creates an Iterator
 	il->ptr = list->root;
+	if(list->root != NULL)
+		il->emp = list->root->next;
+	else
+		il->emp = NULL;
 	return il;
 };
 
@@ -156,6 +162,50 @@ void SLDestroyIterator(SortedListIteratorPtr iter) {
  */
 
 void *SLNextItem(SortedListIteratorPtr iter) {
-	void *value = iter->ptr->next->value;											// returns next value
-	return value;	
+//	printf("start\n");
+	if(iter->ptr == NULL) {
+			return NULL;
+		}
+	if(iter->ptr->value == NULL) {
+//		printf("first empty\n");
+		if(iter->emp == NULL) {
+			iter->ptr = NULL;
+			iter->emp = NULL;
+			return NULL;
+		}
+		void *value = iter->emp->value;
+		if(iter->emp->next == NULL) {
+//			printf("end of list\n");
+			iter->ptr = NULL;
+			iter->emp = NULL;
+		} else {
+//			printf("get next1\n");
+			iter->ptr = iter->emp->next;
+			if(iter->ptr->next != NULL) {
+				iter->emp = iter->ptr->next;
+			}
+			else {
+				iter->emp = NULL;
+			}
+		}
+		return value;
+	}
+//	printf("getting vlaue\n");
+	void *value = iter->ptr->value;
+	if(iter->ptr->next == NULL) {
+//		printf("end of list\n");
+		iter->ptr = NULL;
+		iter->emp = NULL;
+	} else {
+//		printf("get next2\n");
+		iter->ptr = iter->ptr->next;
+		if(iter->ptr->next != NULL) {
+			iter->emp = iter->ptr->next;
+		}
+		else {
+			iter->emp = NULL;
+		}
+	}
+	return value;
+	// returns next value	
 };
