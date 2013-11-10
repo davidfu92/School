@@ -1,0 +1,41 @@
+./search test.txt
+Invalid Input File
+./search dkd dkfk
+Invalid Number of Argument
+**Using the already made test.txt in indexer**
+INPUT: abc
+OUTPUT: Wrong Input Format
+INPUT: so two
+OUTPUT:
+INPUT: sa two
+OUTPUT:
+INPUT: sa one
+OUTPUT: File: indexer/hello/subtwo/two.txt
+		File: indexer/hello/two.txt
+INPUT: sa one two
+OUTPUT:
+INPUT: sa one one
+OUTPUT: File: indexer/hello/subtwo/two.txt
+		File: indexer/hello/two.txt
+INPUT: so one two
+OUTPUT: File: indexer/hello/subtwo/two.txt
+		File: indexer/hello/two.txt
+INPUT so one one
+OUTPUT: File: indexer/hello/subtwo/two.txt
+		File: indexer/hello/two.txt
+INPUT: sa the fox jump
+OUTPUT: File: indexer/hello/one.txt
+		File: indexer/hello/subtwo/one.txt
+INPUT: so wake one
+OUTPUT: File: indexer/hello/subtwo/three.txt
+		File: indexer/hello/three.txt
+		File: indexer/hello/subtwo/two.txt
+		File: indexer/hello.two.txt
+INPUT: sa
+OUTPUT: 
+INPUT: so
+OUTPUT:
+INPUT: q:
+OUTPUT:
+FINAL: Program Exits
+
