@@ -14,7 +14,6 @@ Map hashmapCreate(int startsize) {
 void destroyList(struct FileName *f) {
 	struct FileName *temp = f->next;
 	while(f->name != NULL) {
-		free(f->name);
 		free(f);
 		f = temp;
 		temp = temp->next;
@@ -51,7 +50,7 @@ struct HElement *hashmapGet(Map hmap, unsigned long key, char *word) {
 	long index, i;
 	index = key % hmap->size;
 	if(hmap->table[index].key == key) {
-		if(strcmp(hmap->table[index].word,word) != 0) {
+		if(strcmp(hmap->table[index].word,word) == 0) {
 			return &(hmap->table[index]);
 		}
 	}
@@ -81,48 +80,36 @@ unsigned long hash(char *word)
 	}
 	return hash;
 }
-struct List *and(struct List *one, struct List *two) {
-	struct List *l= malloc(sizeof(struct List));
-	l->list = malloc(sizeof(struct FileName));
-	struct FileName *root = l->list;
-	struct FileName *first = one->list;
-	struct FileName *second = two->list;
+struct FileName *and(struct FileName *one, struct FileName *two) {
+	struct FileName *l= malloc(sizeof(struct FileName));
+	if((one == NULL) || (two == NULL)) {
+		l = NULL;
+		return l;
+	}
+	struct FileName *root = l;
+	struct FileName *first = one;
+	struct FileName *second = two;
 	while(first->name != NULL) {
 		while(second->name != NULL) {
 			if(strcmp(first->name,second->name) == 0) {
-				if(root->name == NULL)
-					root->name = first->name;
+				root->name = first->name;
 				root->next = malloc(sizeof(struct FileName));
 				root = root->next;
 			}
 			second = second->next;
 		}
-		second = two->list;
+		second = two;
 		first = first->next;
 	}
 	return l;
 }
-struct List * or(struct List *one, struct List *two) {
-	struct List *l= malloc(sizeof(struct List));
-	l->list = malloc(sizeof(struct FileName));
-	struct FileName *root = l->list;
-	struct FileName *first = one->list;
-	struct FileName *second = two->list;
-	while(first->name != NULL) {
-		int add = 0;
-		while(root->name != NULL) {
-			if(strcmp(first->name,root->name) == 0) {
-				add = 1;
-			}
-			root = root->next;
-		}
-		if(add == 0) {
-			root->name = first->name;
-			root->next = malloc(sizeof(struct FileName));
-		}
-		root = l->list;
-		first = first->next;
-	}
+struct FileName *or(struct FileName *one, struct FileName *two) {
+	if(one == NULL)
+		return two;
+	if(two == NULL)
+		return one;
+	struct FileName *root = one;
+	struct FileName *second = two;
 	while(second->name != NULL) {
 		int add = 0;
 		while(root->name != NULL) {
@@ -135,8 +122,8 @@ struct List * or(struct List *one, struct List *two) {
 			root->name = second->name;
 			root->next = malloc(sizeof(struct FileName));
 		}
-		root = l->list;
+		root = one;
 		second = second->next;
 	}
-	return l;
+	return one;
 }
