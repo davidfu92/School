@@ -1,0 +1,81 @@
+<list>  The
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/subtwo/three.txt 1 indexer/hello/subtwo/two.txt 1 
+</list>
+<list>  The
+indexer/hello/three.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  alphabet
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  and
+indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  brown
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  chase
+indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  dog
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  every
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  file
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  fox
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/three.txt 3 
+</list>
+<list>  have
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  in
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  jump
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 
+</list>
+<list>  lazy
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  letter
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  of
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  one
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  over
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 
+</list>
+<list>  quick
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 
+</list>
+<list>  single
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  statement
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  text
+indexer/hello/subtwo/two.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  the
+indexer/hello/one.txt 1 indexer/hello/subtwo/one.txt 1 indexer/hello/subtwo/three.txt 1 indexer/hello/subtwo/two.txt 1 
+</list>
+<list>  the
+indexer/hello/three.txt 1 indexer/hello/two.txt 1 
+</list>
+<list>  then
+indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  up
+indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>
+<list>  wake
+indexer/hello/subtwo/three.txt 1 indexer/hello/three.txt 1 
+</list>

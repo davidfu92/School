@@ -3,8 +3,8 @@
 /** Hashmap structure */
 struct FileName {
 	char *name;
-	char *next;
-}
+	struct FileName *next;
+};
 struct HElement {
 	struct FileName *nList;
 	long key;
@@ -15,7 +15,9 @@ struct Hashmap {
 	long size;	
 };
 typedef struct Hashmap* Map;
-
+struct List {
+	struct FileName *list;
+}
 /** Creates a new hashmap near the given size. */
 Map hashmapCreate(int startsize);
 
