@@ -1,16 +1,16 @@
 all:
-	make clean
 	gcc search.c -o search
 	make object
 	make library
 	make index
 object:
 	gcc -c Hashmap.c
-	gcc -c indexer/sorted-list.c indexer/Hashmap.c
 library:
-	ar -cvq indexer/libs1.a indexer/*.o
 	ar -cvq libs2.a *.o
 clean:
-	rm search indexer/index indexer/sorted-list.o *.a indexer/*.a
+	rm search indexer/index indexer/*.o *.a indexer/*.a
 index:
-	gcc indexer/index.c -o index libs1.a
+	gcc -c indexer/Hashmap.c -o indexer/Hashmap.o
+	gcc -c indexer/sorted-list.c -o indexer/sorted-list.o
+	ar -cvq indexer/libsl.a indexer/*.o
+	gcc indexer/index.c -o indexer/index indexer/libsl.a

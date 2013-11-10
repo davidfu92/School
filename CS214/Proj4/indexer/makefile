@@ -1,8 +1,9 @@
 all:
-	gcc main.c -o sortedList.out libsl.a
+	make object
+	make libary
+	gcc index.c -o index libsl.a
 object:
-	gcc -o sorted-list.c
+	gcc -c Hashmap.c
+	gcc -c sorted-list.c
 libary:
 	ar -cvq libsl.a *.o
-clean:
-	rm sortedList.out
