@@ -1,0 +1,4 @@
+all:
+	gcc -o sighand.out sighand.c
+clean:
+	rm *.out
