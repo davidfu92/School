@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
 		int next = 0;
 		char *in;
 		while(c != EOF) {
-			if((!isdigit(c)) && (c != ' ') && (c != '<') && (c != '>') && (c != '\n')) {
+			if((c != ' ') && (c != '<') && (c != '>') && (c != '\n')) {
 				w[spot]= c;
 				spot++;
 				//printf("%c", c);
@@ -149,15 +149,16 @@ int main(int argc, char **argv) {
 				if(spot>0) {
 					w = realloc(w, sizeof(char)*(++spot));
 					w[spot] = '\0';
-					spot =0;
+					spot = 0;
 					if(strcmp(w,"list") == 0) {
 						next = 1;
 						free(w);
 					}
 					if((next == 0) && (strcmp(w,"/list") != 0) && (strcmp(w,in) != 0)) {
-						//		printf("word: %s file: %s\n", in,w);
-						hashmapInsert(tokens,w,in,hash(in));
-					} else if(next == 1) {
+						//printf("word: %s file: %s\n", in,w);
+						if(atoi(w) == 0)
+							hashmapInsert(tokens,w,in,hash(in));
+					} else if(next == 1){
 						in = w;
 						next = 0;
 					}

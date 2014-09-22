@@ -82,6 +82,8 @@ unsigned long hash(char *word)
 }
 struct FileName *and(struct FileName *one, struct FileName *two) {
 	struct FileName *l= malloc(sizeof(struct FileName));
+	l->next = NULL;
+	l->name = NULL;
 	if((one == NULL) || (two == NULL)) {
 		l = NULL;
 		return l;
@@ -93,8 +95,11 @@ struct FileName *and(struct FileName *one, struct FileName *two) {
 		while(second->name != NULL) {
 			if(strcmp(first->name,second->name) == 0) {
 				root->name = first->name;
+				printf("this is being added %s \n",first->name);
 				root->next = malloc(sizeof(struct FileName));
 				root = root->next;
+				root->name = NULL;
+				root->next = NULL;
 			}
 			second = second->next;
 		}
@@ -104,7 +109,6 @@ struct FileName *and(struct FileName *one, struct FileName *two) {
 	return l;
 }
 struct FileName *or(struct FileName *one, struct FileName *two) {
-	struct FileName *l= one;
 	if(one == NULL)
 		return two;
 	if(two == NULL)
@@ -113,8 +117,6 @@ struct FileName *or(struct FileName *one, struct FileName *two) {
 	struct FileName *second = two;
 	while(second->name != NULL) {
 		int add = 0;
-		if(root == NULL)
-			printf("it cant be empty");
 		while(root->name != NULL) {
 			if(strcmp(second->name,root->name) == 0) {
 				add = 1;
@@ -125,8 +127,8 @@ struct FileName *or(struct FileName *one, struct FileName *two) {
 			root->name = second->name;
 			root->next = malloc(sizeof(struct FileName));
 		}
-		root = l;
+		root = one;
 		second = second->next;
 	}
-	return l;
+	return one;
 }

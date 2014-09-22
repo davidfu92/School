@@ -1,0 +1,21 @@
+<list>  a
+testdir/4.txt 1 testdir/2.txt 1 testdir/3.txt 1 
+</list>
+<list>  bleu
+testdir/5.txt 1 
+</list>
+<list>  cheese
+testdir/5.txt 1 
+</list>
+<list>  had
+testdir/2.txt 1 testdir/3.txt 1 
+</list>
+<list>  lamb
+testdir/4.txt 1 testdir/3.txt 1 
+</list>
+<list>  little
+testdir/2.txt 1 testdir/1.txt 1 
+</list>
+<list>  mary
+testdir/2.txt 1 testdir/1.txt 1 testdir/3.txt 1 
+</list>

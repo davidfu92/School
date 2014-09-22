@@ -82,6 +82,8 @@ unsigned long hash(char *word)
 }
 struct FileName *and(struct FileName *one, struct FileName *two) {
 	struct FileName *l= malloc(sizeof(struct FileName));
+	l->next = NULL;
+	l->name = NULL;
 	if((one == NULL) || (two == NULL)) {
 		l = NULL;
 		return l;
@@ -95,6 +97,8 @@ struct FileName *and(struct FileName *one, struct FileName *two) {
 				root->name = first->name;
 				root->next = malloc(sizeof(struct FileName));
 				root = root->next;
+				root->name = NULL;
+				root->next = NULL;
 			}
 			second = second->next;
 		}
