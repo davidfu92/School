@@ -1,0 +1,74 @@
+//Import Java Packages
+import java.net.*;
+import java.io.*;
+
+//Intiates Class
+class EchoClient {
+
+	//Main Method
+	public static void main(String commandLineInput[]) {
+		if(commandLineInput.length < 1)
+			System.out.println("Error: No Input");
+		else {
+			//Implements -h parameteter to help User
+			if(commandLineInput[0].compareTo("-h") == 0) {
+				System.out.println("The is a basic Client used JavaSocket to connect to a paticular server. The first arguement should be the server host name and the second arguement should be the port number between 1 to 65535. Recommendation use port above 465 to avoid conflict with pre-existing port.");
+			}
+			else {
+				//Check make sure there is two parameter input
+				if(commandLineInput.length <2)
+					System.out.println("Input The Proper Parameter. Use -h For Help");
+				else {
+					//Puts parameter into variable Host and Port
+					String Host = commandLineInput[0];
+					int Port = 0;
+					//Trys to Parse the Int
+					try {
+						Port = Integer.parseInt(commandLineInput[1]);
+					} catch (Exception E) {
+						System.out.println("ERROR: Port Is Not a Number. Use -h for Instruction");
+					}
+					//Check make sure port is within limitation
+					if(Port < 1 || Port > 65535) {
+						System.out.println("ERROR: Port Out Of Bound. Use -h for Instruction");
+					}
+					else {
+						//Output Conntection Details
+						System.out.println("Connecting to "+ Host + " At Port: " + Port);
+
+
+						try {
+							//Initiates Socket Connection and all Buffers
+							Socket TestSocket = new Socket(Host, Port);
+							PrintWriter infoSender = new PrintWriter(TestSocket.getOutputStream(), true);
+							BufferedReader infoReceiver = new BufferedReader(new InputStreamReader(TestSocket.getInputStream()));
+							BufferedReader standardIn = new BufferedReader(new InputStreamReader(System.in));
+							try {
+								String userInput = standardIn.readLine();
+								//Loops while there is still input
+								while(userInput != null) {
+									if(userInput.compareTo("#") == 0 || userInput.compareTo("$") == 0) {
+										//Exit String is Inputted and Closes all socket and buffer
+										System.out.println("Program Now Exiting");
+										TestSocket.close();
+										infoSender.close();
+										infoReceiver.close();
+										standardIn.close();
+										break;
+									}
+									infoSender.println(userInput);
+									System.out.println("Server Replied: " + infoReceiver.readLine());
+									userInput = standardIn.readLine();
+								}
+							} catch (IOException E) {
+								System.out.println("Error: Parsing Input");
+							}
+						} catch (Exception E) {
+							System.out.println("Error: Fail To Connect To: "+Host+" On Port: "+Port);
+						}
+					}
+				}
+			}
+		}
+	}
+}
