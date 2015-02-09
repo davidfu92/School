@@ -1,7 +1,16 @@
 #include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
 
-void main()
+
+int main()
 {
-	printf("Hello World Program For Network Centric Programming Class/n");
 
+	int file = open("testfile", O_WONLY|O_CREAT);
+	char * output = "Hello World Program For Network Centric Programming Class\n";
+//	write(STDOUT_FILENO, output,strlen(output));
+	write(file, output, strlen(output));
+	close(file);
+	return(0);
 }
