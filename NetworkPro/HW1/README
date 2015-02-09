@@ -1,0 +1,3 @@
+Assignment05
+This is assignment to get students used to basic system vs standard IO.
+Student will be able to get used to programming in C while understanding some basic difference between OS provided optimization and how too many lower level system calls could slow down the application.

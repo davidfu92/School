@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+
+
+/*int main(int argc, char * argv[]) {
+	FILE * sorc,* dest;
+	char * buf = malloc(sizeof(char) * 100);
+	int i;
+	sorc = fopen(argv[1], "r");
+	dest = fopen(argv[2], "w+");
+	char c = ' '; 
+	while((c = fgetc(sorc)) != EOF) {
+		fputc(c, dest);	
+	}
+	fclose(sorc);
+	fclose(dest);
+}*/
+
+int main(int argc, char * argv[]) {
+	struct stat buff;
+	stat("b.c", &buff);
+	printf("File Size: %u\n", buff.st_size);
+
+}
