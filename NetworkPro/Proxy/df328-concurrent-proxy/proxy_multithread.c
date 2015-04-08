@@ -226,79 +226,6 @@ void * proxy_resp(void * arg) {
 
 
 
-/* 
- * main - Main routine for the proxy program 
- */
-int main(int argc, char **argv)
-{
-	int listenfd;             /* The proxy's listening descriptor */
-	int port;                 /* The port the proxy is listening on */
-	int clientlen;            /* Size in bytes of the client socket address */
-	int request_count = 0;    /* Number of requests received so far */
-	struct sockaddr_in clientaddr;  /* Clinet address structure*/  
-	int connfd;                     /* socket desciptor for talkign wiht client*/ 
-	int serverfd;                   /* Socket descriptor for talking with end server */
-	char *request;                  /* HTTP request from client */
-	char *request_uri;              /* Start of URI in first HTTP request header line */
-	char *request_uri_end;          /* End of URI in first HTTP request header line */
-	char *rest_of_request;          /* Beginning of second HTTP request header line */
-	int request_len;                /* Total size of HTTP request */
-	int response_len;               /* Total size in bytes of response from end server */
-	int i, n;                       /* General index and counting variables */
-	int realloc_factor;             /* Used to increase size of request buffer if necessary */  
-
-	char hostname[MAXLINE];         /* Hostname extracted from request URI */
-	char pathname[MAXLINE];         /* Content pathname extracted from request URI */
-	int serverport;                 /* Port number extracted from request URI (default 80) */
-	char log_entry[MAXLINE];        /* Formatted log entry */
-
-	rio_t rio;                      /* Rio buffer for calls to buffered rio_readlineb routine */
-	char buf[MAXLINE];              /* General I/O buffer */
-
-	//Used to fix a bug
-	int error = 0;                  /* Used to detect error in reading requests
-
-									   Check arguments */
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s <port number>\n", argv[0]);
-		exit(0);
-	}
-
-	my_lock_init(PROXY_LOG);
-	/* 
-	 * Ignore any SIGPIPE signals elicited by writing to a connection
-	 * that has already been closed by the peer process.
-	 */
-	signal(SIGPIPE, SIG_IGN);
-
-	/* Create a listening descriptor */
-	port = atoi(argv[1]);
-	listenfd = Open_listenfd(port);
-
-	/* Wait for and process client connections */
-
-	int pid = 0;
-	while (1) { 
-		error = 0;   //Used to fix a bug
-		clientlen = sizeof(clientaddr);  
-		connfd = Accept(listenfd, (SA *)&clientaddr, (socklen_t *)&clientlen);
-
-		pthread_t inc_thread;
-
-		/* create a second thread which executes inc_x(&x) */
-		if(pthread_create(&inc_thread, NULL, proxy_resp, &connfd)) {
-
-			fprintf(stderr, "Error creating thread\n");
-			return 1;
-
-		}
-
-	}
-	/* Control never reaches here */
-	exit(0);
-}
-
-
 /*
  * Rio_readn_w - A wrapper function for rio_readn (csapp.c) that
  * prints a warning message when a read fails instead of terminating
@@ -422,6 +349,84 @@ void format_log_entry(char *logstring, struct sockaddr_in *sockaddr,
 
 	/* Return the formatted log entry string */
 	sprintf(logstring, "%s: %d.%d.%d.%d %s", time_str, a, b, c, d, uri);
+}
+
+
+
+
+
+
+
+
+/* 
+ * main - Main routine for the proxy program 
+ */
+int main(int argc, char **argv)
+{
+	int listenfd;             /* The proxy's listening descriptor */
+	int port;                 /* The port the proxy is listening on */
+	int clientlen;            /* Size in bytes of the client socket address */
+	int request_count = 0;    /* Number of requests received so far */
+	struct sockaddr_in clientaddr;  /* Clinet address structure*/  
+	int connfd;                     /* socket desciptor for talkign wiht client*/ 
+	int serverfd;                   /* Socket descriptor for talking with end server */
+	char *request;                  /* HTTP request from client */
+	char *request_uri;              /* Start of URI in first HTTP request header line */
+	char *request_uri_end;          /* End of URI in first HTTP request header line */
+	char *rest_of_request;          /* Beginning of second HTTP request header line */
+	int request_len;                /* Total size of HTTP request */
+	int response_len;               /* Total size in bytes of response from end server */
+	int i, n;                       /* General index and counting variables */
+	int realloc_factor;             /* Used to increase size of request buffer if necessary */  
+
+	char hostname[MAXLINE];         /* Hostname extracted from request URI */
+	char pathname[MAXLINE];         /* Content pathname extracted from request URI */
+	int serverport;                 /* Port number extracted from request URI (default 80) */
+	char log_entry[MAXLINE];        /* Formatted log entry */
+
+	rio_t rio;                      /* Rio buffer for calls to buffered rio_readlineb routine */
+	char buf[MAXLINE];              /* General I/O buffer */
+
+	//Used to fix a bug
+	int error = 0;                  /* Used to detect error in reading requests
+
+									   Check arguments */
+	if (argc != 2) {
+		fprintf(stderr, "Usage: %s <port number>\n", argv[0]);
+		exit(0);
+	}
+
+	/* 
+	 * Ignore any SIGPIPE signals elicited by writing to a connection
+	 * that has already been closed by the peer process.
+	 */
+	signal(SIGPIPE, SIG_IGN);
+
+	/* Create a listening descriptor */
+	port = atoi(argv[1]);
+	listenfd = Open_listenfd(port);
+
+	/* Wait for and process client connections */
+
+	int pid = 0;
+	while (1) { 
+		error = 0;   //Used to fix a bug
+		clientlen = sizeof(clientaddr);  
+		connfd = Accept(listenfd, (SA *)&clientaddr, (socklen_t *)&clientlen);
+
+		pthread_t inc_thread;
+
+		/* create a second thread which executes inc_x(&x) */
+		if(pthread_create(&inc_thread, NULL, proxy_resp, &connfd)) {
+
+			fprintf(stderr, "Error creating thread\n");
+			return 1;
+
+		}
+
+	}
+	/* Control never reaches here */
+	exit(0);
 }
 
 
