@@ -36,7 +36,23 @@ void parsePackage(char * input, int size) {
 	printf(" from ");
 }
 
+int parseRead(char * file, int size) {
+	FILE * ropen = fopen(file, "r");
 
+	if(ropen == NULL) {
+		
+		
+		
+	} else {
+
+
+	}
+
+}
+
+int parseWrite(char * file, int size) {
+	FILE * wopen = fopen(file, "w+");
+}
 int main(int argc, char **argv) {
 	int sockfd; /* socket */
 	int portno; /* port to listen on */
@@ -122,10 +138,11 @@ int main(int argc, char **argv) {
 		 *           */
 		defmsg[0] = 0;
 		defmsg[1] = 5;
-		strcpy(&(defmsg[2]), "FILE NOT FOUND");
-		defmsg[16] = 0;
-		parsePackage(defmsg, 16);
-		n = sendto(sockfd, defmsg, strlen(defmsg), 0, (struct sockaddr *) &clientaddr, clientlen);
+		defmsg[2] = 1;
+		defmsg[3] = 0;
+		strcpy((char *)&(defmsg[4]), "FILE NOT FOUND");
+		defmsg[18] = 0;
+		n = sendto(sockfd, defmsg, 100, 0, (struct sockaddr *) &clientaddr, clientlen);
 		if (n < 0) 
 			error("ERROR in sendto");
 	}

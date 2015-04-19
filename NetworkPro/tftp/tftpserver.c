@@ -18,6 +18,7 @@ void error(char *msg) {
 }
 
 void parsePackage(char * input, int size) {
+	char path[500];
 	int count = 2;
 	if(input[1] == 1)
 		printf("RRQ ");
@@ -26,7 +27,9 @@ void parsePackage(char * input, int size) {
 	while (input[count] != 0) {
 		printf("%c", input[count]);
 		count ++;
+		path[count-2] = input[count]
 	}
+	path[count-2] = '\0';
 	count++;
 	printf(" ");
 	while (input[count] != 0) {
@@ -34,6 +37,37 @@ void parsePackage(char * input, int size) {
 		count ++;
 	}
 	printf(" from ");
+}
+
+int parseRead(char * file, int size) {
+	FILE * ropen = fopen(file, "r");
+
+	if(ropen == NULL) {
+		
+		return -1;	
+		
+	} else {
+
+
+	}
+
+}
+
+int parseWrite(char * file, int size) {
+	FILE * wopen = fopen(file, "w+");
+}
+
+
+void sendACK(int sockfd, struct sockaddr_in clientaddr, int clientlen) {
+		char ACKmsg[500];
+		ACKmsg[0] = 0;
+		ACKmsg[1] = 4;
+		ACKmsg[2] = 0;
+		n = sendto(sockfd, ACKmsg, 100, 0, (struct sockaddr *) &clientaddr, clientlen);
+		if (n < 0) 
+			error("ERROR in sendto");
+
+
 }
 
 
@@ -122,9 +156,10 @@ int main(int argc, char **argv) {
 		 *           */
 		defmsg[0] = 0;
 		defmsg[1] = 5;
-		strcpy(&(defmsg[2]), "FILE NOT FOUND");
-		defmsg[16] = 0;
-		n = sendto(sockfd, defmsg, strlen(defmsg), 0, (struct sockaddr *) &clientaddr, clientlen);
+		defmsg[2] = 1;
+		strcpy((char *)&(defmsg[3]), "FILE NOT FOUND");
+		defmsg[17] = 0;
+		n = sendto(sockfd, defmsg, 100, 0, (struct sockaddr *) &clientaddr, clientlen);
 		if (n < 0) 
 			error("ERROR in sendto");
 	}
