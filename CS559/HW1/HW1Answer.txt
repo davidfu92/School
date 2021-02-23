@@ -1,0 +1,44 @@
+CS 559 HW1
+
+1.
+Utility of winning given that you bet is final amount in bank for win (W) minus the original amount (B)
+U(win | bet) = W - B
+Utility of losing given that you bet is final amount in bank for loss (L) minus the original amount (B)
+U(loss | bet) = L - B
+So net utility is shown below
+U(bet)=Pw*U(win, bet)+Pl*U(lose, bet)
+=Pw*(W-B)+(1-Pw)*(L-B)
+
+One must maximize utility such that U(bet)>0 so one is very likely to win
+U(bet)>0 ➔ Pw*(W - B) + (1 - Pw)*(L - B) > 0
+Pw*W - Pw*B + L - B - Pw*L +Pw*B > 0
+Pw*W - Pw*L + L - B > 0
+Pw*W - Pw*L > B - L
+Pw*(W - L) > B - L
+Pw > (B - L) / (W - L)
+So as long as probability is greater than (B - L) / (W - L) one should bet
+
+2.
+For the green wallet, the probability to pull a dime followed by two pennies= (4/10) * (6/9) * (5/8) = 1/6
+For the black wallet, the probability pulled a dime followed by two pennies= (2/10) * (8/9) * (7/8) = 7/45
+Given that the probability to use green wallet is 4/5 and black wallet is 1/5 from past experience
+
+For the green wallet, the P=
+(4/5 * 1/6 ) / (4/5 * 1/6) + (1/5 * 7/45) = 2/15 / (2/15 + 7/225) = 2/15 / 37/225 = 30/37 = .8108
+For the black wallet, the P=
+(1/5 * 7/45 ) / (4/5 * 1/6) + (1/5 * 7/45) = 7/225 / (2/15 + 7/225) = 7/225 / 37/225 = 7/37 = .1891
+
+Given that P(error | wallet used) = min ( P(green, coins) , P(black, coin) )
+Probability that you are wrong is the probably you pick black walleyed .1891
+
+
+3.
+We know that sum of independent Gaussian is Z = X+Y ➔ N(Mean x+Mean y, Variance x + Variance y)
+
+Using the mean and instance of both function the expected mean should be
+N1*Mean1+N2*Mean2/Net N = (1*2000+4*1000) / (2000+1000) = 2
+The combine variance should be sum(all value - 2)^2 / 3000
+The combine variance can be expressed by n1*variance1^2+n2*variance2^2+n1*(mean1-mean3)^2+n2*(mean2-mean3)^2
+Resulting in 8000+9000+2000+4000/3000 = 7.66666
+
+Pretty close to the result of python

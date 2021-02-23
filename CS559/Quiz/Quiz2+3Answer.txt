@@ -1,0 +1,44 @@
+Quiz 2
+
+Problem 1. (True or False)
+CS 559, Quiz 2
+• For a 1D Gaussian distribution, a small variance leads to a more flat bell shape.
+False since variance is the square of standard diviation if its low it means a lot of values in your sample is closer to the expected mean value so your curve will be pointier as the distributed sample are all relitively close to the mean
+• For a 1D Gaussian distribution, a small mean leads to a more flat bell shape.
+False, mean only shifts the center of the curve to the left of less than 0 or to the right if greater than zero
+• Rotation is a linear operator.
+True
+• A vector space can have multiple sets of basis.
+True
+• Orthogonal vectors are always linearly independent.
+True
+• Making decision using posteriors can be treated as a special case of that using losses or risks.
+True
+• Let λij denote the loss incurred for taking action αi when the true state is wj. We have λij = λji. (2 points)
+False λji = λ(ai|wj)
+• Let λij denote the loss incurred for taking action αi when the true state is wj. We have λii > λji. (2 points)
+True
+
+
+
+Quiz 3
+Problem 1. (True or False)
+CS 559: Quiz 3
+• As the model complexity increases, the training errors tend to decrease.
+True
+• As the model complexity increases, the test errors tend to decrease.
+False, testing error decrease to a certain extend but as complexity increase further testing error will increase again
+• MAP is a non-parametric approach for parameter estimation.
+True
+• K-NN is a non-parametric approach.
+True
+• Histogram estimation is a non-parametric method.
+True
+• Histogram estimation requires no human-set parameters.
+False it requires bins and starting location
+• PCA aims to maximize the reconstruction errors by projecting higher-dimension data to a lower-dimension ones.
+False, it tries to reduce noise and make data more cohertant, thus minimizing reconstruction errors
+• PCA can be treated as a subspece-selection approach.
+True
+• 1-NN and 3-NN always yield the same result.
+False due to greater complexity and more data to work with

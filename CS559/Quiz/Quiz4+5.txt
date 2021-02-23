@@ -1,0 +1,24 @@
+Quiz 4
+
+1) Gradient descent can be applied to any objective function (True of False).
+True
+2) Gradient descent can always find the global optimal (True of False).
+False - Local Optimal
+3) Perception algorithm always converges (True of False).
+True only if data set is linearly seperable
+4) MSE can always find a decision hyperplane that correctly classifies the two classes, if they are linearly separable (True of False).
+True
+5) SVM is an unsupervised learning method (True of False).
+False it is supervised
+
+
+Quiz 5
+
+• GMM is an unsupervised approach.
+True
+• GMM works for hard assignment, and K-means works for soft assignment.
+False the other way around
+• K-Means works in an iterative manner.
+True
+• The E step of EM approach handles parameter estimation for the current responsibilities. • K-Means finds the global optima.
+True
