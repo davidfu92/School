@@ -1,0 +1,30 @@
+CS 559, Quiz 1
+• For a 1D Gaussian distribution, a small variance leads to a more flat bell shape.
+	-False leads to more narrow curve or pointier
+• For a 1D Gaussian distribution, a small mean leads to a more flat bell shape.
+	-False mean shifts the curve left or right smaller moves curve to the left
+• Rotation is a linear operator.
+	-True
+• Making decision using posteriors can be treated as a special case of that using losses or risks.
+	-True
+• Let λij denote the loss incurred for taking action αi when the true state is wj. We always have λij = λji. (2 points)
+	-True
+Problem 2. A doctor gives a patient a (D)rug (drug or no drug) dependent on their (A)ge (old or young) and (G)ender (male or female). Whether or not the patient (R)ecovers (recovers or doesn’t recover) depends on all D, A and G.
+(a) Draw the belief network for the above case.
+A->D
+G->D
+D->R
+A->R
+G->R
+(b) Is it a Directed Acyclic Graph? Why?
+Yes as it is a single direction topological graph, going from any two points no node will be repeated (A,D) (G,D) (D,R) (A,R) (G,R) (A,D,R) (G,D,R) or revisted following the direction of the path
+(c) Decompose the joint distribution P (A, G, D, R) into four terms, each of which is a probability of conditional probability of only one variable.
+
+P(A, D, G, R) = P(A | D, G, R) P(D | A, G, R) P(G | A, D, R) P(R | A, D, G)
+
+D, G, R does not impact A therefore P(A | D, G, R) = P(A)
+R does not impact D but A and G does so P(D | A, G)
+A, D, R does not impact G therefore P(G | A, D, R) = P(G)
+R is determined by A, G, D so P(R | A, D, G) remains unchaged
+
+P(A, D, G, R) = P(A) P(D | A, G) P(G) P(R | A, D, G)
