@@ -1,0 +1,211 @@
+# Calcultes the determinate of the Hessian of the passed in image and thresholds it
+def getHessian(img):
+	# Create the output image
+	ouput = np.zeros((img.shape[0], img.shape[1]))
+
+	# Get the second derivatives of the image
+	img_xx = sobelFilterHoriz(sobelFilterHoriz(img))
+	img_yy = sobelFilterVert(sobelFilterVert(img))
+	img_xy = sobelFilterHoriz(sobelFilterVert(img))
+
+	# Get determinant of the Hessian matrix
+	det = np.zeros((img.shape[0], img.shape[1]))
+	for i in range(img.shape[0]):
+		for j in range(img.shape[1]):
+			det[i][j] = img_xx[i][j]*img_yy[i][j] - img_xy[i][j]*img_xy[i][j]
+
+	# Get max and min values to use for thresholding
+	max_val = np.amax(det)
+	min_val = np.amin(det)
+
+	val_range = max_val - min_val
+
+	# Nomalize image
+	for i in range(det.shape[0]):
+		for j in range(det.shape[1]):
+			det[i][j] = (det[i][j] - min_val) * (255/val_range)
+
+	# Threshold the determinant
+	for i in range(det.shape[0]):
+		for j in range(det.shape[1]):
+			# If the pixel value is lower than the threshold set it to 0
+			if det[i][j] < 150:
+				det[i][j] = 0
+			else:
+				det[i][j] = 255
+
+	# Apply non maximum suppression to the image
+	suppressed = nonMaxSuppression(det)
+
+	return suppressed
+
+# Applies non maximum suppression to the passed in array
+def nonMaxSuppression(img):
+	output = img
+
+	# Loop through the pixels in the image
+	for i in range(1, img.shape[0] - 1):
+		for j in range(1, img.shape[1] - 1):
+			# Check if the current pixel is not the largest in the surrounding 3x3 area
+			if img[i][j] != max(img[i-1][j-1], img[i-1][j], img[i-1][j+1], # First row
+								img[i][j-1], img[i][j], img[i][j+1], # Second row
+								img[i+1][j-1], img[i+1][j], img[i+1][j+1]): # Third row
+				# Pixel is not the largest so set it to 0
+				output[i][j] = 0
+			else:
+				# It is the max so set the rest to 0
+				for k in range(0, 3):
+					for g in range(0, 3):
+						if not (k == 1 and g == 1):
+							output[i + k -1][[j + g -1]] = 0
+	return output
+
+# Function to get a list of all the pixels with values above a certain threshold
+def getPoints(img, threshold):
+	# List of x, y pairs stored as tuples
+	points = []
+
+	# Loop through all pixels in image and get all coordinates of pixels with value above threshold
+	for i in range(0, img.shape[0]):
+		for j in range(0, img.shape[1]):
+			if img[i][j] > threshold:
+				points.append((j, i))
+
+	return points
+
+# Returns two random points from the list of passed in points
+def pickRandPoints(pointsList):
+	# Get the random index of the first point
+	idx1 = random.randint(0, len(pointsList) - 1)
+
+	# Pick another radom index that id different from the first one
+	idx2 = random.randint(0, len(pointsList) - 1)
+
+	# Ensure that the two indexes are not the same
+	while(idx2 == idx1):
+		idx2 = random.randint(0, len(pointsList) - 1)
+
+	# Get the random points
+	temp_point1 = pointsList[idx1]
+	temp_point2 = pointsList[idx2]
+
+	return temp_point1, temp_point2
+
+# Get the slope m and intercept c of a line based on the two passed in points
+def getLine(point1, point2):
+	# Get x1 and y1 from the correct indexes
+	x1 = point1[0]
+	y1 = point1[1]
+
+	# Get x2 and y2 from the correct indexes
+	x2 = point2[0]
+	y2 = point2[1]
+
+	# Check if x1 and x2 and the same (AKA points make a vertical line)
+	if(x1 == x2):
+		# Set slope to infinity
+		m = math.inf
+	else:
+		m = (y2 - y1)/(x2 - x1)
+
+	# Find the intercept c using the point slope intercept formula
+	# y - y1 = m(x - x1)
+	c = -m*x1 + y1
+
+	return m, c
+
+# Gets the perpendicular distance between a point and a line
+def getDistFromLine(m, c, x, y):
+	# Get the point on the line where the perpendicular line from the point to the line intersects
+	line_x = (x + (m*y) - (m*c))/(1 + m**2)
+	line_y = ((m*x) + ((m**2)*y) - ((m**2)*c))/(1 + m**2) + c
+
+	# Calculate the distance between the point on the line (line_x, line_y) and point (x, y)
+	dist = math.sqrt(((line_x - x)**2) + ((line_y - y)**2))
+
+	return dist, line_x, line_y
+
+# Run the RANSAC algorithm on the passed in image to determine the 4 best lines in the image
+def RANSAC(img, norm_img, num_lines, num_points):
+	# Get the list of points to pick from
+	points = getPoints(img, 0)
+
+	# Variable to keep track of how many lines we've found
+	lines = 0
+
+	while(lines < num_lines):
+		# Get 2 random points from the list
+		point1, point2 = pickRandPoints(points)
+
+		# Get the model for the line between the two points
+		m, c = getLine(point1, point2)
+
+		# List to hold all the points that are close enough to line model
+		inliers = []
+
+		# Variable for the largest distance a line can have based on its inliers
+		max_line_size = 0
+
+		# Loop through all the points to determine inliers
+		for point in points:
+			# Get distance between line and point
+			dist, line_x, line_y = getDistFromLine(m, c, point[0], point[1])
+
+			# Check if the point is close enough to the line 
+			if dist < 3:
+				# Add the point to the array
+				inliers.append((point[0], point[1]))
+
+		# Check if the number of inliers for the line is above our specified needed amount
+		if(len(inliers) > num_points):
+			# Increase number of good fit lines we've found
+			lines += 1
+
+			# Remove the inliers that were used to prevent reuse
+			for point in inliers:
+				# Remove the point
+				points.remove((point[0], point[1]))
+
+				# Plot the inliers as 3x3 squares
+				for i in range(0, 3):
+					for j in range(0, 3):
+						# Check if the pixel is out of bounds
+						if ((point[0] + i - 1) > img.shape[0]) or ((point[1] + j - 1) > img.shape[1]):
+							continue
+						else:
+							img[point[1] + j - 1][point[0] + i - 1] = 255
+
+				# Loop through the rest of the points to find the two points with 
+				# Largest distance betwwen them
+				for secondary_point in inliers:
+					# Calculate the distance between the two points
+					point_dist = math.sqrt(((point[0] - secondary_point[0])**2) + ((point[1] - secondary_point[1])**2))
+
+					# Determine if the line made by the two points is bigger
+					if point_dist > max_line_size:
+						max_line_size = point_dist
+
+						# Variable to hold the two points that make the largest line for a set of inliers
+						most_dist_points = ((point[0], point[1]), (secondary_point[0], secondary_point[1]))
+
+			# Plot the line from one most distant inlier to the other on the image with points
+			cv2.line(img, most_dist_points[0], most_dist_points[1], (255, 255, 255), thickness=1)
+
+			# Plot the line from one most distant inlier to the other on the normal image
+			cv2.line(norm_img, most_dist_points[0], most_dist_points[1], (0, 0, 0), thickness=2)
+			
+		# Once the four strongest lines have been found show them on the image
+		if lines == 4:
+			cv2.imshow("RANSAC point image", img)
+			key = cv2.waitKey(0)
+
+			if key == ord('q'):
+				exit()
+
+			cv2.imshow("RANSAC Normal image", norm_img)
+			key = cv2.waitKey(0)
+
+			if key == ord('q'):
+				exit()
+
+# Applies a Hough transform to the passed in image in order to find the 4 strongest supported lines
