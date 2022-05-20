@@ -1,0 +1,304 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Final.R}
+\author{Fumonchu}
+\date{2021-12-14}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Final.R},
+  pdfauthor={Fumonchu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+Company : Stevens Project : Final Purpose : Final First Name : David
+Last Name : Fu CWID : 10471854 Date : December 15, 2021
+
+Final
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list=}\FunctionTok{ls}\NormalTok{())}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{513}\NormalTok{)}
+
+\DocumentationTok{\#\# Problem 3}
+\NormalTok{file}\OtherTok{\textless{}{-}}\FunctionTok{file.choose}\NormalTok{()}
+\NormalTok{factorData}\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(file)}
+
+\NormalTok{index}\OtherTok{\textless{}{-}}\FunctionTok{sort}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\FunctionTok{nrow}\NormalTok{( factorData),}\FunctionTok{round}\NormalTok{(.}\DecValTok{30}\SpecialCharTok{*}\FunctionTok{nrow}\NormalTok{(factorData ))))}
+\NormalTok{training}\OtherTok{\textless{}{-}}\NormalTok{ factorData[}\SpecialCharTok{{-}}\NormalTok{index,]}
+\NormalTok{test}\OtherTok{\textless{}{-}}\NormalTok{ factorData[index,]}
+
+\FunctionTok{library}\NormalTok{(}\StringTok{"kknn"}\NormalTok{)}
+
+\NormalTok{predict\_k1 }\OtherTok{\textless{}{-}} \FunctionTok{kknn}\NormalTok{(}\AttributeTok{formula=}\NormalTok{ Z}\SpecialCharTok{\textasciitilde{}}\NormalTok{., training[,}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)] , test[,}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)], }\AttributeTok{k=}\DecValTok{2}\NormalTok{,}\AttributeTok{kernel =}\StringTok{"rectangular"}\NormalTok{  )}
+
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{fitted}\NormalTok{(predict\_k1)}
+\FunctionTok{table}\NormalTok{(test}\SpecialCharTok{$}\NormalTok{Z,fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    fit
+##     1 4.5
+##   2 1   0
+##   4 0   1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wrong}\OtherTok{\textless{}{-}}\NormalTok{ ( test}\SpecialCharTok{$}\NormalTok{Z}\SpecialCharTok{!=}\NormalTok{fit)}
+\NormalTok{rate}\OtherTok{\textless{}{-}}\FunctionTok{sum}\NormalTok{(wrong)}\SpecialCharTok{/}\FunctionTok{length}\NormalTok{(wrong)}
+\NormalTok{rate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Problem 4}
+
+\NormalTok{bc\_dist}\OtherTok{\textless{}{-}}\FunctionTok{dist}\NormalTok{(factorData[,}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)])}
+\NormalTok{hclust\_resutls}\OtherTok{\textless{}{-}}\FunctionTok{hclust}\NormalTok{(bc\_dist )}
+\FunctionTok{plot}\NormalTok{(hclust\_resutls)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hclust\_2}\OtherTok{\textless{}{-}}\FunctionTok{cutree}\NormalTok{(hclust\_resutls,}\DecValTok{2}\NormalTok{)}
+\FunctionTok{table}\NormalTok{(}\AttributeTok{Cluster=}\NormalTok{hclust\_2,}\AttributeTok{Actual=}\NormalTok{factorData[,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Actual
+## Cluster 1 2 4 5
+##       1 2 1 0 0
+##       2 0 0 3 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?kmeans}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## starting httpd help server ... done
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kmeans\_2}\OtherTok{\textless{}{-}} \FunctionTok{kmeans}\NormalTok{(factorData[,}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)],}\DecValTok{2}\NormalTok{,}\AttributeTok{nstart =} \DecValTok{10}\NormalTok{)}
+\NormalTok{kmeans\_2}\SpecialCharTok{$}\NormalTok{cluster}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1 2 2 2 1 2 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(kmeans\_2}\SpecialCharTok{$}\NormalTok{cluster,}\AttributeTok{Actual=}\NormalTok{factorData[,}\DecValTok{2}\NormalTok{] )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Actual
+##     1 2 4 5
+##   1 2 1 0 0
+##   2 0 0 3 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Problem 5}
+\FunctionTok{summary}\NormalTok{(factorData)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      ï..                  X             Y               Z      
+##  Length:7           Min.   :1.0   Min.   :1.000   Min.   :1.0  
+##  Class :character   1st Qu.:1.5   1st Qu.:1.500   1st Qu.:1.5  
+##  Mode  :character   Median :4.0   Median :3.000   Median :4.0  
+##                     Mean   :3.0   Mean   :2.571   Mean   :3.0  
+##                     3rd Qu.:4.0   3rd Qu.:3.500   3rd Qu.:4.0  
+##                     Max.   :5.0   Max.   :4.000   Max.   :5.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mmnorm2 }\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(x)}
+\NormalTok{\{z}\OtherTok{\textless{}{-}}\NormalTok{((x}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(x))}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{max}\NormalTok{(x)}\SpecialCharTok{{-}}\FunctionTok{min}\NormalTok{(x)))}
+\FunctionTok{return}\NormalTok{(z)                              }
+\NormalTok{\}}
+
+\NormalTok{myvector}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{:}\DecValTok{20}
+\FunctionTok{mmnorm2}\NormalTok{(myvector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 0.00000000 0.05263158 0.10526316 0.15789474 0.21052632 0.26315789
+##  [7] 0.31578947 0.36842105 0.42105263 0.47368421 0.52631579 0.57894737
+## [13] 0.63157895 0.68421053 0.73684211 0.78947368 0.84210526 0.89473684
+## [19] 0.94736842 1.00000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"neuralnet"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'neuralnet' was built under R version 4.1.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{net  }\OtherTok{\textless{}{-}} \FunctionTok{neuralnet}\NormalTok{( Z}\SpecialCharTok{\textasciitilde{}}\NormalTok{ X}\SpecialCharTok{+}\NormalTok{Y, training, }\AttributeTok{hidden=}\DecValTok{1}\NormalTok{, }\AttributeTok{threshold=}\FloatTok{0.01}\NormalTok{)}
+
+
+
+
+\CommentTok{\#Plot the neural network}
+\FunctionTok{plot}\NormalTok{(net)}
+
+\NormalTok{result }\OtherTok{\textless{}{-}}\FunctionTok{compute}\NormalTok{(net, test[,}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)])}
+\NormalTok{ANN}\OtherTok{=}\FunctionTok{as.numeric}\NormalTok{(result}\SpecialCharTok{$}\NormalTok{net.result)}
+
+
+\NormalTok{ANN\_cat}\OtherTok{\textless{}{-}}\FunctionTok{ifelse}\NormalTok{(ANN}\SpecialCharTok{\textless{}}\NormalTok{.}\DecValTok{4}\NormalTok{,.}\DecValTok{7}\NormalTok{,.}\DecValTok{4}\NormalTok{)}
+
+\FunctionTok{table}\NormalTok{(}\AttributeTok{Actual=}\NormalTok{test}\SpecialCharTok{$}\NormalTok{Z,ANN\_cat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       ANN_cat
+## Actual 0.4
+##      2   1
+##      4   1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wrong}\OtherTok{\textless{}{-}}\NormalTok{ ( test}\SpecialCharTok{$}\NormalTok{Z}\SpecialCharTok{!=}\NormalTok{ANN\_cat)}
+\NormalTok{rate}\OtherTok{\textless{}{-}}\FunctionTok{sum}\NormalTok{(wrong)}\SpecialCharTok{/}\FunctionTok{length}\NormalTok{(wrong)}
+\NormalTok{rate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\end{document}
